@@ -1,0 +1,42 @@
+﻿@model IEnumerable<TasksList.Models.Todo>
+
+<div id="progressBar">
+    <div class="progress">
+        <div class="progress-bar" role="progressbar"
+             style="width:@(Html.AttributeEncode(ViewBag.Percent))%"></div>
+    </div>
+</div>
+
+<h2>Your Todo List</h2>
+
+    <table class="table">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck" })
+                </td>
+                <td>
+                    @if (!item.IsDone)
+                    {
+                        @Html.DisplayFor(modelItem => item.Description)
+                    }
+                    else
+                    {
+                        <div class="completedTodo">@Html.DisplayFor(modelItem => item.Description)</div>
+                    }
+                </td>
+
+                <td>
+                    <i class="fas fa-minus-circle"></i>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+
+<!-- The script should run every time the table is updated 
+     That is why I put the script here in partial file.
+     If the script is added in Index file the script will 
+     Only be run at first time the page loads-->
+<script src="~/Custom_Scripts/AddCheckBoxListener.js"></script>
